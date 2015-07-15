@@ -1,0 +1,37 @@
+<?
+    $message = $action['message'];
+    global $_u, $_p;
+?>
+<div class="">
+    <div class="row-fluid">
+        <h2>Login</h2>
+
+    <? if(!empty($message)) : ?>
+    <ul class="action-message deny">
+        <li class="" style=""><?= $message; ?></li>
+    </ul>
+    <?  endif; ?>
+    
+    <div class="well">
+        <form action="<?= PAGE_BASE; ?>login" method="POST">
+            <div class="row oh">
+                <div class="col-md-4">
+                    <div>
+                        <input type="password" name="login[secret]"  class="form-control tac" placeholder="password" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="row oh">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success col-xs-12">Login</button>
+                </div>
+                <div class="col-md-12">
+                    
+                </div>
+            </div>
+            
+        </form>
+    </div>
+    <div class="span4"></div>
+</div>
+</div>

@@ -1,0 +1,123 @@
+<script language="JavaScript">
+	var wsrelay;
+	var ui;
+
+	var target_element_id = 'wsdevice';
+
+	$(document).ready(function() {
+
+		$('a, button').on('click', function() {
+			var that = this;
+			setTimeout(function() {
+				that.blur();
+			}, 10);
+		});
+
+		// Create the UI
+		ui = $('#' + target_element_id).wsdeviceui({
+            fields : {
+                throttle : {
+                    initial : 0,
+                    min : -100,
+                    max : 100,
+                    step : 1,
+                    angleOffset : -125,
+                    angleArc : 250,
+                    stopper : true,
+                    readOnly : false,
+                    rotation : 'clockwise',
+                    
+                    cursor : 10,
+                    thickness : 0.5,
+                    width: 100,
+                    value : 0
+                },
+                steering : {
+                    initial : 0,
+                    min : -100,
+                    max : 100,
+                    step : 1,
+                    angleOffset : -125,
+                    angleArc : 250,
+                    stopper : true,
+                    readOnly : false,
+                    rotation : 'clockwise',
+                    
+                    cursor : 10,
+                    thickness : 0.5,
+                    width: 100,
+                    value : 0
+                }
+                ,
+                bank : {
+                    initial : 0,
+                    min : -100,
+                    max : 100,
+                    step : 1,
+                    angleOffset : -125,
+                    angleArc : 250,
+                    stopper : true,
+                    readOnly : false,
+                    rotation : 'clockwise',
+                    
+                    cursor : 10,
+                    thickness : 0.5,
+                    width: 100,
+                    value : 0
+                }
+            }
+		});
+
+		// Create the Websocket Relay Connection
+		wsrelay = $('#' + target_element_id).wsrelay({
+
+			host : '192.168.2.101',
+			port : 666,
+			mode : 'webui',
+			name : 'mover',
+            
+			auto_reconnect : true,
+			check_relay_on_startup:true,
+			
+			onOpen : function(e) {
+				ui.connected(e);
+			},
+
+			onClose : function(e) {
+				ui.disconnected(e);
+			},
+
+			onMessage : function(message) {
+				ui.incoming(message);
+			},
+			
+			onLighthouseError : function(){
+			    ui.lighthouse_error();
+			},
+			
+			onReconnect : function(){
+			    ui.reconnecting();
+			},
+			
+			onConnectionWarning : function(){
+                ui.connection_warning();
+            },
+            
+            onReconnectTrigger : function(){
+                ui.reconnect_trigger();
+            }
+        
+		});
+
+	});
+
+</script>
+<div class="wsrui-header row-fluid">
+    <div class="col-xs-1 tac"></div>
+    <div class="col-xs-3">Name</div>
+    <div class="col-xs-3">IP</div>
+    <div class="col-xs-2">Mode</div>
+    <div class="col-xs-1">ID</div>
+    <div class="col-xs-2 tar"></div>
+</div>
+<div id="wsdevice"></div>

@@ -1,0 +1,30 @@
+<?
+	global $_p;
+?>
+
+
+</div>
+
+<? if(DEBUG==1) : ?>
+<div id="debug">
+	<div class="tac fs3 ps fltr mb">Debug <a href="javascript:;" onclick="$('debug').style.width='100%'; $('debug').style.height='100%';">IN</a> | <a href="javascript:;" onclick="$('debug').style.width='100px'; $('debug').style.height='30px';">OUT</a></div>
+	<ul>
+	<? foreach($_SESSION['debug']['db'] as $item) : ?>
+	<? $sum = $sum+$item['time']; ?>
+		<li class="msb">
+			<span class="fat fs3">
+				<?= $item['time']; ?>
+			</span>
+			#
+			<span class="fat fs3">
+				<?= $item['use']; ?>
+			</span>
+			#
+			<span class="<? if($item['time']=='cache') : ?>c_light<? endif; ?>"><?= $item['query']; ?></span>
+		
+		</li>	
+	<? endforeach; ?>
+	</ul>
+	<span style="margin:30px; font-size:30px;"><?= $sum; ?></span>
+</div>
+<? endif; ?>
